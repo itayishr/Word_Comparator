@@ -2,8 +2,11 @@ import logging
 from fastapi import APIRouter, HTTPException, status
 from starlette.responses import JSONResponse
 from pydantic import BaseModel
-
+from common import config
+from redis_connector import RedisConnector
+import pickle
 from worker import fetch_similar_words_task
+import json
 SIMILAR = "similar"
 
 # Configure logging
@@ -19,6 +22,8 @@ class ResponseModel(BaseModel):
     totalRequests: int
     avgProcessingTimeNs: int
 
+redis = RedisConnector()
+redis.store_words()
 
 @router.get("/similar", status_code=200)
 async def similar(word_to_compare: str) -> JSONResponse:
