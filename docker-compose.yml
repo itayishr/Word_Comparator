@@ -39,3 +39,16 @@ services:
         RABBITMQ_DEFAULT_PASS: guest
     volumes:
       - ./conf/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
+
+  redis:
+    image: redis:6.2-alpine
+    restart: always
+    ports:
+      - '6780:6780'
+    command: redis-server --save 20 1 --loglevel warning --port 6780
+    volumes:
+      - redis:/data
+      - ./conf/redis.conf:/usr/local/etc/redis/redis.conf
+volumes:
+  redis:
+    driver: local
