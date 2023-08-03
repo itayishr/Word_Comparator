@@ -7,3 +7,4 @@ This project implements a word comparator API with two endpoints using FastAPI, 
 - FastAPI: A modern, fast (high-performance) web framework for building APIs with Python.
 - RabbitMQ: A message broker that enables communication between the API and the Celery worker.
 - Celery: A distributed task queue system for asynchronous processing.
+- Redis: A persistent database for storage of word collection along with permutations.
