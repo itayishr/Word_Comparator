@@ -1,12 +1,13 @@
 import logging
-from fastapi import APIRouter, HTTPException, status
-from starlette.responses import JSONResponse
+import time
+
+from fastapi import APIRouter, status
 from pydantic import BaseModel
-from common import config
+from starlette.responses import JSONResponse
+
 from redis_connector import RedisConnector
-import pickle
-from worker import fetch_similar_words_task
-import json
+from worker import store_words_to_redis
+
 SIMILAR = "similar"
 
 # Configure logging
@@ -22,25 +23,34 @@ class ResponseModel(BaseModel):
     totalRequests: int
     avgProcessingTimeNs: int
 
+
 redis = RedisConnector()
-redis.store_words()
+store_words_to_redis.delay()
+
 
 @router.get("/similar", status_code=200)
 async def similar(word_to_compare: str) -> JSONResponse:
     """
     Handle request to search for words similar to passed word_to_compare.
     """
-    similar_words = []
-    fetch_similar_words_task.delay(word_to_compare)
-    return JSONResponse({SIMILAR: similar_words})
+    start_time = time.perf_counter_ns()
+    permutations = redis.get_word_permutations(word_to_compare)
+    permutations.remove(word_to_compare)
+    end_time = time.perf_counter_ns()
+    process_time_ns = end_time - start_time
+    redis.update_average_time(process_time_ns)
+    return JSONResponse({SIMILAR: permutations})
 
 
 @router.get("/stats", status_code=200, response_model=ResponseModel)
 async def stats() -> JSONResponse:
     """
-    Return application statistics. 
+    Return application statistics.
     """
-    # TODO add stats logic.
-    response_json = {"totalWords": 1, "totalRequests": 1, "avgProcessingTimeNs": 1}
+    response_json = {
+        "totalWords": redis.get_word_count(),
+        "totalRequests": redis.get_total_requests(),
+        "avgProcessingTimeNs": redis.get_average_process_time(),
+    }
 
     return JSONResponse(status_code=status.HTTP_200_OK, content=response_json)
