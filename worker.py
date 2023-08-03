@@ -12,8 +12,8 @@ celery = Celery()
 celery.conf.broker_url = config.CELERY_BROKER_URL
 
 
-@celery.task(name="fetch_similar_words")
-def process_crawl_request_task(word_to_compare):
+@celery.task(name='fetch_similar_words_task')
+def fetch_similar_words_task(word_to_compare):
     # TODO add logic to find similar words and return result
     similar_words = []
-    return similar_words
+    return word_to_compare

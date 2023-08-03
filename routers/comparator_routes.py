@@ -3,6 +3,7 @@ from fastapi import APIRouter, HTTPException, status
 from starlette.responses import JSONResponse
 from pydantic import BaseModel
 
+from worker import fetch_similar_words_task
 SIMILAR = "similar"
 
 # Configure logging
@@ -24,7 +25,9 @@ async def similar(word_to_compare: str) -> JSONResponse:
     """
     Handle request to search for words similar to passed word_to_compare.
     """
+    print("Got it!")
     similar_words = []
+    fetch_similar_words_task.delay(word_to_compare)
     return JSONResponse({SIMILAR: similar_words})
 
 

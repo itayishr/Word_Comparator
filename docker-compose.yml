@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  rest_api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: rest_api_server
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+    ports:
+      - 8000:80
+
+  celery_worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: celery_worker
+    command: /bin/sh -c "celery -A worker.celery worker --loglevel=info --concurrency=10 -n worker1.%h"
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+    depends_on:
+      - rabbitmq
+
+  rabbitmq:
+    image: rabbitmq:management
+    hostname: rabbitmq
+    ports:
+      - "5674:5674"
+      - "15674:15674"
+    env_file:
+      - .env
+    environment:
+        RABBITMQ_DEFAULT_USER: guest
+        RABBITMQ_DEFAULT_PASS: guest
+    volumes:
+      - ./conf/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
