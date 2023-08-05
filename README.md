@@ -100,7 +100,7 @@ Celery is used to handle the asynchronous processing of dictionary processing du
 
 Redis is used as a database which holds the entire dictionary, represented in a key-value manner.
 When application initializes for the first time, dictionary is stored in the following manner:
-1. Each word parsed from the `words_clean.txt ` file is first sorted alphabetically, in ascending order.
+1. Each word parsed from the `words_clean.txt` file is first sorted alphabetically, in ascending order.
 2. The stored word serves as a new key, and the value is a list. 
 3. If a key is absent in the Redis database, a new one is created, and the associated list starts with the original unsorted word.
 If the key already exists, the unsorted word is simply appended to the existing list.
