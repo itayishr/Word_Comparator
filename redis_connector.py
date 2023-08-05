@@ -61,9 +61,9 @@ class RedisConnector:
                     for word in line.split():
                         sorted_word = "".join(sorted(word))
                         sorted_words[sorted_word].append(word)
+                        word_count += 1
             for key in sorted_words.keys():
                 self.pipe.set(key, json.dumps(sorted_words[key]))
-                word_count += 1
             self.redis_client.set(TOTAL_WORDS, word_count)
             # Bulk insert to redis.
             self.pipe.execute()
