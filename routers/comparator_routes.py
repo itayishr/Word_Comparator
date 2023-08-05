@@ -29,7 +29,7 @@ store_words_to_redis.delay()
 
 
 @router.get("/similar", status_code=200)
-async def similar(word_to_compare: str) -> JSONResponse:
+def similar(word_to_compare: str) -> JSONResponse:
     """
     Handle request to search for words similar to passed word_to_compare.
     """
@@ -43,7 +43,7 @@ async def similar(word_to_compare: str) -> JSONResponse:
 
 
 @router.get("/stats", status_code=200, response_model=ResponseModel)
-async def stats() -> JSONResponse:
+def stats() -> JSONResponse:
     """
     Return application statistics.
     """
