@@ -14,13 +14,13 @@ This project implements a word comparator API with two endpoints using FastAPI, 
 1. Clone the repository (Make sure you have access permissions since this is a private repository)
 
 ```bash
-git clone https://github.com/itayishr/Gutsy.git
+git clone https://github.com/itayishr/Gutsy_Task.git
 ```
 
 2. Install Docker and docker-compose on machine.
 3. Build the docker environment:
 ```
-cd Gutsy
+cd Gutsy_Task
 docker-compose build
 ```
 4. Run the docker containers:
