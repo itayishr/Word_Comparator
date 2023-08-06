@@ -29,13 +29,13 @@ store_words_to_redis.delay()
 
 
 @router.get("/similar", status_code=200)
-def similar(word_to_compare: str) -> JSONResponse:
+def similar(word: str) -> JSONResponse:
     """
     Handle request to search for words similar to passed word_to_compare.
     """
     start_time = time.perf_counter_ns()
-    permutations = redis.get_word_permutations(word_to_compare)
-    permutations.remove(word_to_compare)
+    permutations = redis.get_word_permutations(word)
+    permutations.remove(word)
     end_time = time.perf_counter_ns()
     process_time_ns = end_time - start_time
     redis.update_average_time(process_time_ns)
