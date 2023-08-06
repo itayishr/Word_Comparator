@@ -14,13 +14,13 @@ This project implements a word comparator API with two endpoints using FastAPI, 
 1. Clone the repository (Make sure you have access permissions since this is a private repository)
 
 ```bash
-git clone https://github.com/itayishr/Gutsy.git
+git clone https://github.com/itayishr/Gutsy_Task.git
 ```
 
 2. Install Docker and docker-compose on machine.
 3. Build the docker environment:
 ```
-cd Gutsy
+cd Gutsy_Task
 docker-compose build
 ```
 4. Run the docker containers:
@@ -100,7 +100,7 @@ Celery is used to handle the asynchronous processing of dictionary processing du
 
 Redis is used as a database which holds the entire dictionary, represented in a key-value manner.
 When application initializes for the first time, dictionary is stored in the following manner:
-1. Each word parsed from the `words_clean.txt ` file is first sorted alphabetically, in ascending order.
+1. Each word parsed from the `words_clean.txt` file is first sorted alphabetically, in ascending order.
 2. The stored word serves as a new key, and the value is a list. 
 3. If a key is absent in the Redis database, a new one is created, and the associated list starts with the original unsorted word.
 If the key already exists, the unsorted word is simply appended to the existing list.
