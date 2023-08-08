@@ -10,6 +10,8 @@ services:
       - .:/app
     env_file:
       - .env
+    deploy:
+        replicas: 2
 
   celery_worker:
     build:
