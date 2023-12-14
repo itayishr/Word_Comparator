@@ -1,5 +1,5 @@
 # Word Comparator API
-WWWW
+kajsdfkjasdfkjahsdfkajdf
 This project implements a word comparator API with two endpoints using FastAPI, RabbitMQ, and Celery. The API allows users to submit a comparison request, which returns a list containing all words that share the same permutation, and get the statistics of the system using a separate stats endpoint.
 
 ## Technologies Used
